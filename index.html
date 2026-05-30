@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPL Score Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">IPL archive tracker</p>
+          <h1>Every IPL match result in one fast scoreboard.</h1>
+          <p class="hero-text">
+            Browse the full IPL results archive, filter by season or team, and
+            explore scorelines backed by the latest downloaded match data.
+          </p>
+          <div class="hero-meta">
+            <div class="meta-pill">
+              <span class="meta-label">Matches</span>
+              <strong id="total-matches">-</strong>
+            </div>
+            <div class="meta-pill">
+              <span class="meta-label">Seasons</span>
+              <strong id="total-seasons">-</strong>
+            </div>
+            <div class="meta-pill">
+              <span class="meta-label">Latest match</span>
+              <strong id="latest-match">-</strong>
+            </div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <p class="panel-label">Data source</p>
+          <h2>Cricsheet IPL archive</h2>
+          <p id="generated-at" class="panel-copy">Loading archive metadata...</p>
+        </div>
+      </header>
+
+      <main>
+        <section class="filters">
+          <label class="field">
+            <span>Search team or venue</span>
+            <input id="search-input" type="search" placeholder="Try CSK, Wankhede, Bengaluru..." />
+          </label>
+
+          <label class="field">
+            <span>Season</span>
+            <select id="season-filter">
+              <option value="all">All seasons</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Team</span>
+            <select id="team-filter">
+              <option value="all">All teams</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="results-bar">
+          <p id="results-count">Loading matches...</p>
+        </section>
+
+        <section id="matches-grid" class="matches-grid" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <template id="match-card-template">
+      <article class="match-card">
+        <div class="match-card-top">
+          <div>
+            <p class="match-season"></p>
+            <h3 class="match-title"></h3>
+          </div>
+          <p class="match-date"></p>
+        </div>
+
+        <p class="match-result"></p>
+
+        <div class="scoreboard"></div>
+
+        <div class="match-footer">
+          <p class="match-venue"></p>
+          <p class="match-player"></p>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

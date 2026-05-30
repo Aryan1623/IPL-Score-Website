@@ -1,0 +1,312 @@
+:root {
+  --bg: #07111f;
+  --bg-soft: rgba(9, 22, 38, 0.82);
+  --panel: rgba(12, 28, 48, 0.88);
+  --panel-strong: rgba(15, 39, 67, 0.96);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #eff5ff;
+  --muted: #9db0c9;
+  --accent: #61dafb;
+  --accent-strong: #f7b733;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(247, 183, 51, 0.18), transparent 26%),
+    radial-gradient(circle at top right, rgba(97, 218, 251, 0.18), transparent 30%),
+    linear-gradient(145deg, #030812 0%, #07111f 52%, #0c1b31 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 72px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 28px;
+}
+
+.hero-copy,
+.hero-panel,
+.filters,
+.results-bar,
+.match-card {
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.hero-copy {
+  padding: 32px;
+  border-radius: 28px;
+}
+
+.eyebrow,
+.panel-label,
+.match-season,
+.meta-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-size: 0.76rem;
+}
+
+h1,
+h2,
+h3,
+.match-title {
+  margin: 0;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.03em;
+  font-weight: 400;
+}
+
+h1 {
+  margin-top: 10px;
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  line-height: 0.95;
+}
+
+.hero-text,
+.panel-copy {
+  color: var(--muted);
+  max-width: 58ch;
+  line-height: 1.65;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.meta-pill {
+  min-width: 152px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.meta-pill strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.12rem;
+}
+
+.hero-panel {
+  padding: 28px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(247, 183, 51, 0.1), rgba(97, 218, 251, 0.06)),
+    var(--panel-strong);
+  align-self: stretch;
+}
+
+.hero-panel h2 {
+  margin: 8px 0 12px;
+  font-size: 2.2rem;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(4, 12, 22, 0.92);
+  color: var(--text);
+  padding: 14px 16px;
+  font: inherit;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: 2px solid rgba(97, 218, 251, 0.45);
+  outline-offset: 2px;
+}
+
+.results-bar {
+  margin: 18px 0;
+  padding: 16px 20px;
+  border-radius: 18px;
+}
+
+.results-bar p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+.match-card {
+  padding: 20px;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 36%),
+    var(--panel);
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.match-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(97, 218, 251, 0.32);
+}
+
+.match-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.match-title {
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.match-date,
+.match-venue,
+.match-player {
+  color: var(--muted);
+  margin: 0;
+}
+
+.match-result {
+  margin: 18px 0 14px;
+  color: var(--accent-strong);
+  font-weight: 800;
+}
+
+.scoreboard {
+  display: grid;
+  gap: 10px;
+}
+
+.innings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.innings-team {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.innings-team strong {
+  font-size: 1rem;
+}
+
+.innings-team span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.innings-score {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.match-footer {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 28px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  text-align: center;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 20px;
+  }
+
+  .hero-copy,
+  .hero-panel,
+  .filters,
+  .results-bar,
+  .match-card {
+    border-radius: 20px;
+  }
+
+  h1 {
+    font-size: 3.6rem;
+  }
+
+  .match-card-top,
+  .innings-row {
+    flex-direction: column;
+    align-items: start;
+  }
+}
