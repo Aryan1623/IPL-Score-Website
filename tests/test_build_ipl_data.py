@@ -56,8 +56,9 @@ class BuildIplDataTests(unittest.TestCase):
         self.assertEqual(totals["shortName"], "MI")
 
     def test_build_match_summary_reads_expected_fields(self):
+        build_ipl_data.ensure_raw_data_ready()
         summary = build_ipl_data.build_match_summary(
-            Path("data/raw/ipl_json/1082591.json")
+            build_ipl_data.RAW_DATA_DIR / "1082591.json"
         )
 
         self.assertEqual(summary["id"], "1082591")
