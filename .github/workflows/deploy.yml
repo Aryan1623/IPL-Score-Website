@@ -96,8 +96,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Rebuild IPL dataset
-        run: python3 scripts/build_ipl_data.py
+      - name: Rebuild IPL dataset when raw source is available
+        run: |
+          if [ -d "data/raw/ipl_json" ] || [ -f "data/raw/ipl_json.zip" ]; then
+            python3 scripts/build_ipl_data.py
+          else
+            echo "Raw IPL source files are not available in this checkout. Using committed data/matches.json."
+          fi
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
