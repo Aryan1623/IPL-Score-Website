@@ -1,10 +1,12 @@
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import zipfile
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw" / "ipl_json"
+RAW_ZIP_FILE = PROJECT_ROOT / "data" / "raw" / "ipl_json.zip"
 OUTPUT_FILE = PROJECT_ROOT / "data" / "matches.json"
 
 TEAM_SHORT_NAMES = {
@@ -33,6 +35,21 @@ TEAM_SHORT_NAMES = {
 
 def team_short_name(team_name: str) -> str:
     return TEAM_SHORT_NAMES.get(team_name, team_name[:3].upper())
+
+
+def ensure_raw_data_ready() -> None:
+    if RAW_DATA_DIR.exists() and any(RAW_DATA_DIR.glob("*.json")):
+        return
+
+    if not RAW_ZIP_FILE.exists():
+        raise FileNotFoundError(
+            f"Could not find extracted IPL JSON files in {RAW_DATA_DIR} "
+            f"or archive file at {RAW_ZIP_FILE}"
+        )
+
+    RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(RAW_ZIP_FILE, "r") as archive:
+        archive.extractall(RAW_DATA_DIR)
 
 
 def calculate_innings_totals(innings: dict) -> dict:
@@ -120,6 +137,7 @@ def build_match_summary(file_path: Path) -> dict:
 
 
 def main() -> None:
+    ensure_raw_data_ready()
     match_files = sorted(RAW_DATA_DIR.glob("*.json"))
     matches = [build_match_summary(path) for path in match_files]
     matches.sort(key=lambda match: match["date"] or "", reverse=True)
