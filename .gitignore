@@ -1,2 +1,5 @@
 data/raw/
 .DS_Store
+__pycache__/
+ai-test-artifacts/
+.ai-generated-tests/
