@@ -56,15 +56,56 @@ class BuildIplDataTests(unittest.TestCase):
         self.assertEqual(totals["shortName"], "MI")
 
     def test_build_match_summary_reads_expected_fields(self):
-        build_ipl_data.ensure_raw_data_ready()
-        summary = build_ipl_data.build_match_summary(
-            build_ipl_data.RAW_DATA_DIR / "1082591.json"
-        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            match_file = temp_path / "sample_match.json"
+            sample_match = {
+                "info": {
+                    "dates": ["2017-04-05"],
+                    "season": "2017",
+                    "event": {"match_number": 1, "name": "Indian Premier League"},
+                    "venue": "Rajiv Gandhi International Stadium",
+                    "city": "Hyderabad",
+                    "teams": ["Sunrisers Hyderabad", "Royal Challengers Bangalore"],
+                    "outcome": {"winner": "Sunrisers Hyderabad", "by": {"runs": 35}},
+                    "player_of_match": ["Yuvraj Singh"],
+                    "toss": {"winner": "Royal Challengers Bangalore", "decision": "field"},
+                },
+                "innings": [
+                    {
+                        "team": "Sunrisers Hyderabad",
+                        "overs": [
+                            {
+                                "deliveries": [
+                                    {"runs": {"total": 1}, "extras": {}},
+                                    {"runs": {"total": 4}, "extras": {}},
+                                    {"runs": {"total": 0}, "extras": {}, "wickets": [{"kind": "caught"}]},
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        "team": "Royal Challengers Bangalore",
+                        "overs": [
+                            {
+                                "deliveries": [
+                                    {"runs": {"total": 2}, "extras": {}},
+                                    {"runs": {"total": 1}, "extras": {}},
+                                ]
+                            }
+                        ],
+                    },
+                ],
+            }
+            match_file.write_text(json.dumps(sample_match), encoding="utf-8")
 
-        self.assertEqual(summary["id"], "1082591")
+            summary = build_ipl_data.build_match_summary(match_file)
+
+        self.assertEqual(summary["id"], "sample_match")
         self.assertEqual(summary["season"], "2017")
         self.assertEqual(summary["teams"][0]["shortName"], "SRH")
-        self.assertIn("won by", summary["resultText"])
+        self.assertEqual(summary["winner"], "Sunrisers Hyderabad")
+        self.assertIn("won by 35 runs", summary["resultText"])
         self.assertEqual(len(summary["innings"]), 2)
 
     def test_main_writes_payload_to_output_file(self):
